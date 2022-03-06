@@ -53,7 +53,7 @@ class BrainStackProgram:
 
     @staticmethod
     def get_parser():
-        symbol_id = pyparsing.Regex("[a-zA-Z_][a-zA-Z0-9_]+")
+        symbol_id = pyparsing.Regex("[a-zA-Z0-9_]+")
         basic_code_block = pyparsing.OneOrMore(pyparsing.Regex("[+\-\.,<>\[\]]") ^ symbol_id)
         # code_block = pyparsing.Forward()
         # code_block << (basic_code_block ^ (pyparsing.Literal("[") + code_block + pyparsing.Literal("]")))
@@ -67,5 +67,5 @@ class BrainStackProgram:
         return bf_program
 
 if __name__ == "__main__":
-    u = BrainStackProgram().from_string("import \"stdio.bs\" ++>> swp")
+    u = BrainStackProgram().from_string("import \"stdio.bs\"\n 2 push 3 push 4 push add mul ,\n")
     print("".join(u.compile()))
