@@ -1,4 +1,4 @@
-import "num_base_4.bs"
+import "num_base_4.sb"
 
 : 16 15 +;
 : 17 16 +;

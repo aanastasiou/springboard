@@ -1,5 +1,5 @@
-import "num_base_7.bs"
-import "std_stack.bs"
-import "std_math.bs"
+import "num_base_7.sb"
+import "std_stack.sb"
+import "std_math.sb"
 
 1 push 1 push add
