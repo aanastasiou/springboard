@@ -72,6 +72,7 @@ class BrainStackProgram:
         import_statement = pyparsing.Suppress("import") + pyparsing.QuotedString("\"")
         imports_section = pyparsing.ZeroOrMore(import_statement)
         bf_program = pyparsing.Group(imports_section("imports") + defs_section("symbol_defs") + code_section("code"))
+        bf_program.ignore(pyparsing.Literal("#") + pyparsing.rest_of_line())
         return bf_program
 
 @click.command()
