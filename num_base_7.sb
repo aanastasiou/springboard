@@ -1,4 +1,4 @@
-import "num_base_6.bs"
+import "num_base_6.sb"
 
 : 64 63 +;
 : 65 64 +;

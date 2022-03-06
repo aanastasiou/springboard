@@ -1,4 +1,13 @@
+#!/usr/bin/env python
+"""
+Springboard compiler
+
+:author: Athanasios Anastasiou
+:date: Mar 2022
+
+"""
 import pyparsing
+import click
 
 class BrainStackProgram:
     def __init__(self):
@@ -28,7 +37,6 @@ class BrainStackProgram:
         for a_symbol_def in self._code_info[0]["symbol_defs"]:
             self._symbol_defs[a_symbol_def["symbol"]] = a_symbol_def["code"]
         return self
-
 
     def from_file(self, a_file):
         with open(a_file, "rt") as fd:
@@ -64,8 +72,14 @@ class BrainStackProgram:
         import_statement = pyparsing.Suppress("import") + pyparsing.QuotedString("\"")
         imports_section = pyparsing.ZeroOrMore(import_statement)
         bf_program = pyparsing.Group(imports_section("imports") + defs_section("symbol_defs") + code_section("code"))
+        bf_program.ignore(pyparsing.Literal("#") + pyparsing.rest_of_line())
         return bf_program
 
+@click.command()
+@click.argument("input_file", type=click.File(mode="r"))
+@click.argument("output_file", type=click.File(mode="w"))
+def sbc(input_file, output_file):
+    output_file.write("".join(BrainStackProgram().from_string(input_file.read()).compile())+"\n")
+
 if __name__ == "__main__":
-    u = BrainStackProgram().from_string("import \"stdio.bs\"\n 3 push 4 push add 65 push add . ,\n")
-    print("".join(u.compile()))
+    sbc()
