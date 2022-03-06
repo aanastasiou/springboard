@@ -67,5 +67,5 @@ class BrainStackProgram:
         return bf_program
 
 if __name__ == "__main__":
-    u = BrainStackProgram().from_string("import \"stdio.bs\"\n 2 push 3 push 4 push add mul ,\n")
+    u = BrainStackProgram().from_string("import \"stdio.bs\"\n 3 push 4 push add 65 push add . ,\n")
     print("".join(u.compile()))
