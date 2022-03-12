@@ -2,5 +2,8 @@ import "num_base_7.sb"
 import "std_stack.sb"
 import "std_math.sb"
 
+: if <[[-] ;
+: then >] ;
+
 # Add two numbers example
-1 push 1 push add
+5 push 3 push negate over over ,.
