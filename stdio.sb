@@ -1,4 +1,4 @@
-import "num_base_7.sb"
+import "num_base_8.sb"
 import "std_stack.sb"
 import "std_math.sb"
 
@@ -6,4 +6,4 @@ import "std_math.sb"
 : then >] ;
 
 # Add two numbers example
-5 push 3 push negate over over ,.
+255 push 3 push negate over over ,.
