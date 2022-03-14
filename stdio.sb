@@ -1,4 +1,4 @@
-import "std/num_base_128.sb"
+import "std/num_base_256.sb"
 import "std/stack.sb"
 import "std/math.sb"
 

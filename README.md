@@ -72,6 +72,39 @@ Springboard comes with a set of "libraries", that is, sets of predefined symbols
 2. Write stack based Brainfuck code
 
 
+## The Springboard compiler (`sbc.py`)
+
+This repository includes the Springboard compiler, a Python program that reads `.sb` files and 
+outputs a pure brainfuck string on stdout.
+
+To use `sbc.py`:
+
+1. Clone this repository
+   - `git clone https://github.com/aanastasiou/springboard.git`
+
+2. Create a new virtual environment
+   - `virtualenv -p python3.9 pyenv/`
+
+3. Activate the environment
+   - `source pyenv/bin/activate`
+   
+4. Install dependencies
+   - `pip install -r requirements.txt`
+
+You are now ready to compile Springboard programs. Try `./sbc.py --help` for more information.
+
+The compiler is "intelligent enough" to catch cyclic references and symbol redefinitions.
+
+## Improvements (?)
+
+1. Reference the code section (`main()`) of each imported module to be able to re-use it.
+   - The idea here is to re-use symbols but also have earlier defined "main" code prepare the state of the main memory.
+
+2. Allow complete/partial redefinition of a symbol:
+   - `:` define symbol (if it already exists, throws error)
+   - `::` re-define symbol (if it already exists, the code it resolves to gets completely replaced, otherwise, throw undefined error)
+   - `:=` extend symbol (if it already exists, the code it resolves to is extended, otherwise, throw undefined error)
+
 
 ## Why Springboard?
 
@@ -85,6 +118,17 @@ defining a vocabulary of words that resolved to Brainfuck strings. That is, one 
 that literally spells out the equivalent Brainfuck program.  Here is that very first `gforth` program:
 
 ```
+    : setzero ." [-] " ;
+    : repnumber dup 0 = IF setzero ELSE DUP DUP SWAP ABS SWAP 0 < IF 45 ELSE 43 THEN swap 0 DO DUP EMIT LOOP THEN DROP ;
+    : push repnumber  ." > " ;
+    : pop ." <[-] " drop ;
+    : swp ." <[->+>+<<]<[->+<]>>>[-<<<+>>>]<  " setzero swap ;
+    : doub ." <[->+<]>[-<+>>+<]>[-<+>] " dup ;
+    : add ." <[-<+>] " + ;
+    : sub ." <[-<->] " - ;
+    : mul ." < [->+>+<<] < [- > > [-<+>] > [-<+>>+<] > [-<+>] <<<<] > [-<+>] > [-] > [-] << " * ;
+
+    2 push doub doub mul mul doub add 1 push sub 15 push sub
 ```
 
 *This programs evaluates to 0*.

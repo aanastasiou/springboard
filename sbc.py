@@ -113,6 +113,9 @@ class SpringboardProgram:
 @click.argument("input_file", type=click.File(mode="r"))
 @click.argument("output_file", type=click.File(mode="w"))
 def sbc(input_file, output_file):
+    """
+    Springboard compiler.
+    """
     output_file.write("".join(SpringboardProgram().from_string(input_file.read()).compile())+"\n")
 
 if __name__ == "__main__":
