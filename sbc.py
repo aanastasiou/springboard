@@ -9,7 +9,7 @@ Springboard compiler
 import pyparsing
 import click
 
-class BrainStackProgram:
+class SpringboardProgram:
     def __init__(self):
         self._parser = self.get_parser()
         self._symbol_defs = {}
@@ -31,7 +31,7 @@ class BrainStackProgram:
         self._code_info = self._parser.parseString(a_program)
         # If there are imports, prepopulate the symbol definition table
         for an_import in self.imports:
-            u = BrainStackProgram().from_file(an_import)
+            u = SpringboardProgram().from_file(an_import)
             self._symbol_defs.update(u.symbol_defs)
         # Append the locally defined symbols
         for a_symbol_def in self._code_info[0]["symbol_defs"]:
@@ -79,7 +79,7 @@ class BrainStackProgram:
 @click.argument("input_file", type=click.File(mode="r"))
 @click.argument("output_file", type=click.File(mode="w"))
 def sbc(input_file, output_file):
-    output_file.write("".join(BrainStackProgram().from_string(input_file.read()).compile())+"\n")
+    output_file.write("".join(SpringboardProgram().from_string(input_file.read()).compile())+"\n")
 
 if __name__ == "__main__":
     sbc()
