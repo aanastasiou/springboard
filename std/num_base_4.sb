@@ -1,0 +1,5 @@
+import "num_base_2.sb"
+
+: 2 1 +;
+: 3 2 +;
+

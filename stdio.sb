@@ -1,6 +1,6 @@
-import "num_base_8.sb"
-import "std_stack.sb"
-import "std_math.sb"
+import "std/num_base_128.sb"
+import "std/stack.sb"
+import "std/math.sb"
 
 : if <[[-] ;
 : then >] ;
