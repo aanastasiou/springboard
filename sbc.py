@@ -6,6 +6,7 @@ Springboard compiler
 :date: Mar 2022
 
 """
+import os
 import pyparsing
 import click
 
@@ -30,8 +31,13 @@ class SpringboardProgram:
     def from_string(self, a_program):
         self._code_info = self._parser.parseString(a_program)
         # If there are imports, prepopulate the symbol definition table
+        cwd = os.getcwd()
         for an_import in self.imports:
-            u = SpringboardProgram().from_file(an_import)
+            import_path, import_file = os.path.split(an_import)
+            if len(import_path) > 0:
+                os.chdir(import_path)
+            u = SpringboardProgram().from_file(import_file)
+            os.chdir(cwd)
             self._symbol_defs.update(u.symbol_defs)
         # Append the locally defined symbols
         for a_symbol_def in self._code_info[0]["symbol_defs"]:
