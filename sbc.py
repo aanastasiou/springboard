@@ -64,7 +64,11 @@ class SpringboardProgram:
 
         # Append the locally defined symbols
         for a_symbol_def in self._code_info[0]["symbol_defs"]:
-            self._symbol_defs[a_symbol_def["symbol"]] = a_symbol_def["code"]
+            if a_symbol_def["symbol"] not in self._symbol_defs:
+                self._symbol_defs[a_symbol_def["symbol"]] = a_symbol_def["code"]
+            else:
+                click.echo(f"ERROR!!! Symbol {a_symbol_def['symbol']} is redefined, from {self._symbol_defs[a_symbol_def['symbol']]} to {a_symbol_def['code']}")
+                sys.exit(1)
         return self
 
     def from_file(self, a_file, previous_imports=[]):
