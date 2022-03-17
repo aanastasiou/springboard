@@ -1,0 +1,8 @@
+# The first N Fibonacci sequence terms.
+# Here, N=11
+
+import "../std/num_base_256.sb"
+import "../std/stack.sb"
+import "../std/math.sb"
+
+1 push 1 push 11 push <[[->>>>+<<<<] over over add >>> [-<<<+>>>]<<<-] 

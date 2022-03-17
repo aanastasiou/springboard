@@ -1,0 +1,7 @@
+# Hello world loads the "Hello World" message to the stack and 
+# reads it back to output.
+
+import "../std/str.sb"
+
+0>D>L>R>O>W>SP>O>L>L>E>H[print <]
+

@@ -1,0 +1,9 @@
+# Springboard's hello world is the simple addition of two
+# sequential memory cells.
+
+: 0 [0];
+: 1 0+;
+: add [-<+>];
+: print .;
+
+1>1 add print;
