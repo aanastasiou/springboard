@@ -43,6 +43,17 @@ class SpringboardProgram:
         return self._code_info[0]["code"]
 
     def from_string(self, a_program, previous_imports=[]):
+        """
+        Compiles a Springboard program given a string.
+
+        :param a_program: A string that conforms to Springboard's grammar
+        :type a_program: str
+        :param previous_imports: A list of all imports in the main namespace to avoid circular references.
+        :type previous_imports: list
+
+        :returns: A string that contains purely brainfuck code (i.e. composed entirely of the brainfuck grammar's symbols).
+        :rtype: str
+        """
         self._code_info = self._parser.parseString(a_program)
         # If there are imports, prepopulate the symbol definition table
         cwd = os.getcwd()
@@ -72,12 +83,32 @@ class SpringboardProgram:
         return self
 
     def from_file(self, a_file, previous_imports=[]):
+        """
+        Compiles a Springboard program given a file.
+
+        :param a_file: The filename of a text file that contains Springboard code.
+        :type a_file: str
+        :param previous_imports: See `Springboard.from_string`
+        :type previous_imports: list
+
+        :returns: A string that contains purely brainfuck code (i.e. composed entirely of the brainfuck grammar's symbols).
+        :rtype: str
+        """
         p_imports = previous_imports + []
         with open(a_file, "rt") as fd:
             data = fd.read()
         return self.from_string(data, p_imports)
 
     def compile(self, a_program=None):
+        """
+        Compiles a Springboard program to brainfuck.
+
+        :param a_program: A string containing Springboard code.
+        :type a_program: str
+
+        :returns: A string that contains purely brainfuck code.
+        :rtype: str
+        """
         bf_code = "+-.,<>[]"
         source_code = a_program
         if a_program is None:
@@ -95,19 +126,32 @@ class SpringboardProgram:
 
     @staticmethod
     def get_parser():
+        """
+        Parses Springboard's grammar.
+
+        springboard_program := imports_section defs_section code_section
+        imports_section := import_statement*
+        import_statement := import \".*?\"
+        defs_section := def_statement*
+        def_statement := : symbol_identifier code_section ;
+        symbol_identifier := [a-zA-Z0-9_]+
+        code_section := (basic_code_block | loop_code_block)*
+        basic_code_block := "<"|">"|"+"|"-"|"."|","
+        loop_code_block := basic_code_block | ("[" (basic_code_block | loop_code_block)* "]")
+        """
         symbol_id = pyparsing.Regex("[a-zA-Z0-9_]+")
-        basic_code_block = pyparsing.OneOrMore(pyparsing.Regex("[+\-\.,<>\[\]]") ^ symbol_id)
-        # code_block = pyparsing.Forward()
-        # code_block << (basic_code_block ^ (pyparsing.Literal("[") + code_block + pyparsing.Literal("]")))
-        #code_section = pyparsing.ZeroOrMore(code_block)
-        code_section = pyparsing.ZeroOrMore(basic_code_block)
+        basic_code_block = pyparsing.OneOrMore(pyparsing.Regex("[+\-\.,<>]") ^ symbol_id)
+        loop_code_block = pyparsing.Forward()
+        loop_code_block << (basic_code_block ^ ("[" + pyparsing.ZeroOrMore(basic_code_block ^ loop_code_block) + "]"))
+        code_section = pyparsing.ZeroOrMore(basic_code_block ^ loop_code_block)
         def_statement = pyparsing.Group(pyparsing.Suppress(":") + symbol_id("symbol") + code_section("code") + pyparsing.Suppress(";"))
         defs_section = pyparsing.ZeroOrMore(def_statement)
         import_statement = pyparsing.Suppress("import") + pyparsing.QuotedString("\"")
         imports_section = pyparsing.ZeroOrMore(import_statement)
-        bf_program = pyparsing.Group(imports_section("imports") + defs_section("symbol_defs") + code_section("code"))
-        bf_program.ignore(pyparsing.Literal("#") + pyparsing.rest_of_line())
-        return bf_program
+        sb_program = pyparsing.Group(imports_section("imports") + defs_section("symbol_defs") + code_section("code"))
+        sb_program.ignore(pyparsing.Literal("#") + pyparsing.rest_of_line())
+        return sb_program
+        
 
 @click.command()
 @click.argument("input_file", type=click.File(mode="r"))
