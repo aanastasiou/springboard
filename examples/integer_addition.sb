@@ -1,9 +1,14 @@
-# Springboard's hello world is the simple addition of two
-# sequential memory cells.
+# Symbol substitutions to implement addition between two numbers 
+# stored in two successive cells.
+#
+# Notice here:
+#    - The symbol "0" is defined as [-], which ensures that a cell is zero.
+#    - Similarly "1" is defined as "symbol 0" followed by +.
+#    - Symbols "0" and "1" are NOT numbers. If you try to load 2>1 to 
+#      the memory you will get an error. To use 2, you need to define it.
 
-: 0 [0];
+: 0 [-];
 : 1 0+;
 : add [-<+>];
-: print .;
 
-1>1 add print;
+1>1>2 add;

@@ -1,5 +1,14 @@
-# The first N Fibonacci sequence terms.
-# Here, N=11
+# The first N (+2) Fibonacci sequence terms.
+# Here, N=11 to keep the terms within the byte range.
+#
+# This is written following the stack based model. The 
+# actual "Kernel" of the Fibonacci calculation is simply 
+# `over over add`. That is, given a stack with two elements
+# (a b), this sequence of commands returns (a b -- a+b). Given 
+# (b a+b), it returns (b a+b -- a+b+b) and so on. The rest of
+# code "manages" the temporary variable N between steps,
+# making its step effect to be (a b N -- a b a+b N-1). The progam 
+# stops when N == 0 
 
 import "../std/num_base_256.sb"
 import "../std/stack.sb"
