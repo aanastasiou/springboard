@@ -86,7 +86,11 @@ class SpringboardProgram:
         # While there are symbols, keep substituting them
         for a_symbol in source_code:
             if a_symbol not in bf_code:
-                compiled_code.extend(self.compile(self.symbol_defs[a_symbol]))
+                try:
+                    compiled_code.extend(self.compile(self.symbol_defs[a_symbol]))
+                except KeyError:
+                    click.echo(f"ERROR!!! Symbol {a_symbol} is undefined")
+                    sys.exit(1)
             else:
                 compiled_code.append(a_symbol)
 
