@@ -1,9 +1,0 @@
-import "std/num_base_256.sb"
-import "std/stack.sb"
-import "std/math.sb"
-
-: if <[[-] ;
-: then >] ;
-
-# Add two numbers example
-255 push 3 push negate over over ,.
