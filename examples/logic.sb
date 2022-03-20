@@ -1,8 +1,13 @@
-: 0 [-];
-: 1 0+;
+import "../std/num_base_256.sb"
+import "../std/stack.sb"
+import "../std/bool.sb"
 
-: not [-]<[>+<[-]]+>[<->-];
-: and [-]>[-]<<<[>>>+<<<-]>>>[[-]<<[>>+<+<-]>[<+>-]>[<<<+>>>[-]]<<;
-: or [-]<<[>+<-]>[[-]>+<]>[-<<+>>]<;
+0 push 1 push and 
 
-0>1> or
+# Z = ¬A&B + A&¬B
+# AB
+# ABAB
+# ABA¬B
+# AB&
+# A&B
+

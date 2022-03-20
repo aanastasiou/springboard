@@ -12,4 +12,5 @@ bigger programs. These are as follows:
 * `math.sb`
   * Mathematical functions such as `add, mul, sub` and so on. All of them operate over two adjacent memory cells.
 
-  
+* `bool.sb`
+  * Definitions of elementary logic functions (`and, not, or`)  
