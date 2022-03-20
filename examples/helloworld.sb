@@ -1,0 +1,17 @@
+# Hello world loads the "Hello World" message to the stack and 
+# reads it back to output.
+#
+# Notice here:
+#    - The ASCII values of the letters are "programmed" in std/str.sb.
+#      Otherwise the compiler does not know that symbol "A" should stand
+#      for the symbol "65" which stands for the symbol "64+", all the way
+#      to a string of 64 "+" symbols, which is the only directive brainfuck
+#      understands how to handle.
+#    - Space is "programmed" as "SP".
+#    - std/str.sb only defines capital letters. To get a lower case letter, 
+#      load the capital followed by "lower".
+
+import "../std/str.sb"
+
+0>D>L>R>O>W>SP>O>L>L>E>H[print <]
+

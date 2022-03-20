@@ -72,6 +72,8 @@ Springboard comes with a set of "libraries", that is, sets of predefined symbols
 2. Write stack based Brainfuck code
 3. (Very) basic string handling.
 
+For more information, see `std/`.
+
 
 ## The Springboard compiler (`sbc.py`)
 

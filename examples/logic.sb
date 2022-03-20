@@ -1,0 +1,30 @@
+# Demonstrates the boolean functions by implementing XOR.
+#
+# XOR's truth table is as follows:
+#
+# A B Z=A^B
+# 0 0 0
+# 0 1 1
+# 1 0 1
+# 1 1 0
+#
+# XOR can be composed from the basic boolean functions as:
+# Z = A * ¬B + ¬A * B
+# Where:
+#    - ¬A stands for the complement of A (NOT A)
+#    - * Stands for logic AND
+#    - + Stands for logic OR
+#
+# In the following example, values A and B are preloaded on 
+# the stack (the first  two `push` operations). The "xor" 
+# symbol defined here can be re-used  simply by importing 
+# this file.
+
+
+import "../std/num_base_256.sb"
+import "../std/stack.sb"
+import "../std/bool.sb"
+
+: xor over not over and rot rot not and or;
+
+1 push 0 push xor
