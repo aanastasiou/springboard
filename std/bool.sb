@@ -1,3 +1,7 @@
+# Boolean functions
+#
+# Adapted from https://esolangs.org/wiki/Brainfuck_algorithms
+
 : not [-]<[>+<[-]]+>[<->-];
 : and [-]>[-]<<<[>>>+<<<-]>>>[[-]<<[>>+<+<-]>[<+>-]>[<<<+>>>[-]]]<<;
 : or [-]<<[>+<-]>[[-]>+<]>[-<<+>>]<;

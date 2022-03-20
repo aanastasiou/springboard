@@ -1,3 +1,5 @@
+# Basic stack based programming functions
+#
 : pop <[-];
 : push >;
 : swap <[->+>+<<]<[->+<]>>>[-<<<+>>>]<;

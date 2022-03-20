@@ -5,7 +5,7 @@ Springboard is a Brainfuck pre-processor that adds the ability to define and re-
 
 ## Quickstart
 
-1. Any Brainfuck series of symbols (`{+, -, >, <, [, ], ., ,}`) is valid Springboard code
+1. Plain Brainfuck code is valid Springboard code
    - For example, the following is valid Springboard code:
      ```
         [-]+>[-]+[-<+>]
@@ -20,7 +20,8 @@ Springboard is a Brainfuck pre-processor that adds the ability to define and re-
 
          1>1 add
      ```
-     This will compile to the addition snippet given at point #1 
+     This will compile to the addition snippet given at point #1.
+   - Notice here, "0" and "1" are NOT numbers.
 
 3. Symbols can be defined locally (within a given file) or **imported**.
    - For example:
@@ -42,11 +43,11 @@ Springboard is a Brainfuck pre-processor that adds the ability to define and re-
 4. Comments start with `#` and extend to the end of the line.
    - For example:
      ```
-     : 0 [-];     # Ensures that the value of a cell is set to zero
-     : 1 0 +;     # Re-uses the symbol 0 to define 1.
-     : add [-<+>] # Defines addition
+         : 0 [-];      # Ensures that the value of a cell is set to zero
+         : 1 0 +;      # Re-uses the symbol 0 to define 1.
+         : add [-<+>]; # Defines addition
 
-     1>1 add      # Symbols get resolved recursively to produce the final code.
+         1>1 add       # Symbols get resolved recursively to produce the final code.
      ```
 
 
@@ -58,10 +59,13 @@ A typical Springboard program is divided into three *optional sections*:
    - One import per line
    
 2. Symbol definitions
-   - A symbol definition starts with `:`, followed by the symbol and terminates with `;`. 
+   - A symbol definition starts with `:`, followed by the symbol, the Springboard code 
+     it resolves to and terminates with `;`. 
 
 3. Code
-   - Springboard code appears here as Brainfuck symbols intermixed with any defined symbols.
+   - Springboard code appears here as Brainfuck code symbols intermixed with any defined symbols.
+
+For more information, see [`examples/`](examples/)
 
 
 ## "Libraries"
@@ -71,8 +75,9 @@ Springboard comes with a set of "libraries", that is, sets of predefined symbols
 1. Define numeric symbols (0,1,2,...)
 2. Write stack based Brainfuck code
 3. (Very) basic string handling.
+4. Boolean functions
 
-For more information, see `std/`.
+For more information, see [`std/`](std/).
 
 
 ## The Springboard compiler (`sbc.py`)
@@ -100,13 +105,10 @@ The compiler is "intelligent enough" to catch cyclic references and symbol redef
 
 ## Improvements (?)
 
-1. Ensure tha the symbol under definition is not used in its own definition.
+1. Ensure that the symbol under definition is not used in its own definition.
    - At the moment this leads to infinite recursion
    
-2. Reference the code section (`main()`) of each imported module to be able to re-use it.
-   - The idea here is to re-use symbols but also have earlier defined "main" code prepare the state of the main memory.
-
-3. Allow complete/partial redefinition of a symbol:
+2. Allow complete/partial redefinition of a symbol:
    - `:` define symbol (if it already exists, throws error)
    - `::` re-define symbol (if it already exists, the code it resolves to gets completely replaced, otherwise, throw undefined error)
    - `:=` extend symbol (if it already exists, the code it resolves to is extended, otherwise, throw undefined error)
