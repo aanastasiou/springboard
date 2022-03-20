@@ -52,15 +52,15 @@ Springboard is a Brainfuck pre-processor that adds the ability to define and re-
 
 ## Program structure
 
-A typical Springboard program is divided into three *sections*:
+A typical Springboard program is divided into three *optional sections*:
 
-1. Imports (optional)
+1. Imports
    - One import per line
    
-2. Symbol definitions (optional)
+2. Symbol definitions
    - A symbol definition starts with `:`, followed by the symbol and terminates with `;`. 
 
-3. Code (Mandatory)
+3. Code
    - Springboard code appears here as Brainfuck symbols intermixed with any defined symbols.
 
 
@@ -70,6 +70,7 @@ Springboard comes with a set of "libraries", that is, sets of predefined symbols
 
 1. Define numeric symbols (0,1,2,...)
 2. Write stack based Brainfuck code
+3. (Very) basic string handling.
 
 
 ## The Springboard compiler (`sbc.py`)
@@ -97,10 +98,13 @@ The compiler is "intelligent enough" to catch cyclic references and symbol redef
 
 ## Improvements (?)
 
-1. Reference the code section (`main()`) of each imported module to be able to re-use it.
+1. Ensure tha the symbol under definition is not used in its own definition.
+   - At the moment this leads to infinite recursion
+   
+2. Reference the code section (`main()`) of each imported module to be able to re-use it.
    - The idea here is to re-use symbols but also have earlier defined "main" code prepare the state of the main memory.
 
-2. Allow complete/partial redefinition of a symbol:
+3. Allow complete/partial redefinition of a symbol:
    - `:` define symbol (if it already exists, throws error)
    - `::` re-define symbol (if it already exists, the code it resolves to gets completely replaced, otherwise, throw undefined error)
    - `:=` extend symbol (if it already exists, the code it resolves to is extended, otherwise, throw undefined error)
