@@ -3,15 +3,15 @@
 #
 # Notice here:
 #    - The ASCII values of the letters are "programmed" in std/str.sb.
-#      Otherwise the compiler does not know that symbol "A" should stand
-#      for the symbol "65" which stands for the symbol "64+", all the way
-#      to a string of 64 "+" symbols, which is the only directive brainfuck
+#      Otherwise the compiler does not know that symbol "a" should stand
+#      for the symbol "97" which stands for the symbol "96+", all the way
+#      to a string of 96 "+" symbols, which is the only directive brainfuck
 #      understands how to handle.
-#    - Space is "programmed" as "SP".
-#    - std/str.sb only defines capital letters. To get a lower case letter, 
-#      load the capital followed by "lower".
+#    - Space (ascii 32) is defined as "SP".
+#    - std/str.sb only defines lower case letters. To get an upper case letter, 
+#      load the lower case symbol followed by "upper" (Notice capital H bellow)..
 
 import "../std/str.sb"
 
-0>D>L>R>O>W>SP>O>L>L>E>H[print <]
+0>d>l>r>o>w>SP>o>l>l>e>h>upper<[print <]
 
