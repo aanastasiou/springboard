@@ -3,9 +3,13 @@
 #
 # Notice here:
 #    - The symbol "0" is defined as [-], which ensures that a cell is zero.
-#    - Similarly "1" is defined as "symbol 0" followed by +.
+#    - Similarly "1" is defined as "symbol 0" followed by +, which can be seen 
+#      as a successor function.
 #    - Symbols "0" and "1" are NOT numbers. If you try to load 2>1 to 
-#      the memory you will get an error. To use 2, you need to define it.
+#      the memory you will get a symbol undefined error. 
+#      To use symbol "2", you first need to define it. 
+#      - All "number symbols" are defined in std/ as num_base_n.sb where n is 2, 
+#        4, 8, 16, 32 all the way to 256 (the maximum meory cell wordlength).
 
 : 0 [-];
 : 1 0+;
