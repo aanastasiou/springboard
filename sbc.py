@@ -7,7 +7,6 @@ Springboard compiler
 
 """
 import os
-import sys
 import pyparsing
 import click
 
@@ -16,11 +15,14 @@ class SpringboardError(Exception):
     pass
 
 
-class SpringboardSymbolRedefined(SpringboardError):
+class SymbolRedefined(SpringboardError):
     pass
 
 
-class SpringboardCircularDependency(SpringboardError):
+class SymbolUndefined(SpringboardError):
+    pass
+
+class CircularDependency(SpringboardError):
     pass
 
 
@@ -63,8 +65,7 @@ class SpringboardProgram:
             if an_import not in p_imports:
                 p_imports.append(an_import)
             else:
-                click.echo(f"Please resolve the circular dependency involving {an_import} and {','.join(previous_imports)} and try again.")
-                sys.exit(1)
+                raise CircularDependency(f"Circular dependency involving {an_import} and {','.join(previous_imports)}.")
             # Change the current working directoy to enable relative imports
             import_path, import_file = os.path.split(an_import)
             if len(import_path) > 0:
@@ -78,8 +79,7 @@ class SpringboardProgram:
             if a_symbol_def["symbol"] not in self._symbol_defs:
                 self._symbol_defs[a_symbol_def["symbol"]] = a_symbol_def["code"]
             else:
-                click.echo(f"ERROR!!! Symbol {a_symbol_def['symbol']} is redefined, from {self._symbol_defs[a_symbol_def['symbol']]} to {a_symbol_def['code']}")
-                sys.exit(1)
+                raise SymbolRedefined(f"Attempt to redefine symbol {a_symbol_def['symbol']}, from {self._symbol_defs[a_symbol_def['symbol']]} to {a_symbol_def['code']}.")
         return self
 
     def from_file(self, a_file, previous_imports=[]):
@@ -120,8 +120,7 @@ class SpringboardProgram:
                 try:
                     compiled_code.extend(self.compile(self.symbol_defs[a_symbol]))
                 except KeyError:
-                    click.echo(f"ERROR!!! Symbol {a_symbol} is undefined")
-                    sys.exit(1)
+                    raise SymbolUndefined(f"Symbol {a_symbol} is undefined.")
             else:
                 compiled_code.append(a_symbol)
 
@@ -164,7 +163,11 @@ def sbc(input_file, output_file):
     """
     Springboard compiler.
     """
-    output_file.write("".join(SpringboardProgram().from_string(input_file.read()).compile())+"\n")
+    try:
+        output_file.write(f"{''.join(SpringboardProgram().from_string(input_file.read()).compile())}\n")
+    except SpringboardError as e:
+        click.echo(f"{e}")
+
 
 if __name__ == "__main__":
     sbc()
