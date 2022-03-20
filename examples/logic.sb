@@ -2,12 +2,4 @@ import "../std/num_base_256.sb"
 import "../std/stack.sb"
 import "../std/bool.sb"
 
-0 push 1 push and 
-
-# Z = ¬A&B + A&¬B
-# AB
-# ABAB
-# ABA¬B
-# AB&
-# A&B
-
+1 push 0 push over not over and rot rot not and or
