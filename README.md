@@ -146,8 +146,8 @@ This worked, but:
 1. It required a Forth interpreter, for that one ability to define and re-use symbols.
 2. A given Forth interpreter has its own semantics and would require some effort to "lock down" 
    the remaining Forth around Springboard. For example:
-   1. Notice what `repnumber` looks like. `repnumber` implements a substitution like `5: +++++`. 
-   2. Similarly, `import` woulc become a separate function which, because of the way Forth works, would have to 
+   1. Notice what `repnumber` looks like. `repnumber` implements a substitution like `5 --> +++++`. 
+   2. Similarly, `import` would become a separate function which, because of the way Forth works, would have to 
       expressed as ` ." somefile " import`.
 
 This gave birth to `Springboard`. What you find at the bottom of a mechanical dish stack. 
