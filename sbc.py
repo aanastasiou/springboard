@@ -25,11 +25,17 @@ class SymbolUndefined(SpringboardError):
 class CircularDependency(SpringboardError):
     pass
 
+class CircularDefinition(SpringboardError):
+    pass
+
 
 class SpringboardProgram:
     def __init__(self):
         self._parser = self.get_parser()
-        self._symbol_defs = {}
+        self._symbol_defs = {"+": "+", "-": "-",
+                             ">": ">", "<": "<",
+                             "[": "[", "]": "]",
+                             ",": ",", ".": "."}
         self._code_info = None
 
     @property
@@ -99,7 +105,7 @@ class SpringboardProgram:
             data = fd.read()
         return self.from_string(data, p_imports)
 
-    def compile(self, a_program=None):
+    def compile(self, a_program=None, symbols_compiled=[]):
         """
         Compiles a Springboard program to brainfuck.
 
@@ -113,16 +119,17 @@ class SpringboardProgram:
         source_code = a_program
         if a_program is None:
             source_code = list(self.code)
-        compiled_code = []
+        compiled_code = ""
         # While there are symbols, keep substituting them
         for a_symbol in source_code:
-            if a_symbol not in bf_code:
-                try:
-                    compiled_code.extend(self.compile(self.symbol_defs[a_symbol]))
-                except KeyError:
-                    raise SymbolUndefined(f"Symbol {a_symbol} is undefined.")
-            else:
-                compiled_code.append(a_symbol)
+            if a_symbol in symbols_compiled:
+                raise CircularDefinition(f"Circular definition involving {a_symbol} and {','.join(symbols_compiled)}.")
+            if a_symbol not in self._symbol_defs:
+                raise SymbolUndefined(f"Symbol {a_symbol} is undefined.")
+            symbol_code = self._symbol_defs[a_symbol]
+            if type(symbol_code) is not str:
+                self.symbol_defs[a_symbol] = "".join(self.compile(symbol_code, symbols_compiled + [a_symbol]))
+            compiled_code = compiled_code + self.symbol_defs[a_symbol]
 
         return compiled_code
 
@@ -164,7 +171,7 @@ def sbc(input_file, output_file):
     Springboard compiler.
     """
     try:
-        output_file.write(f"{''.join(SpringboardProgram().from_string(input_file.read()).compile())}\n")
+        output_file.write(f"{SpringboardProgram().from_string(input_file.read()).compile()}\n")
     except SpringboardError as e:
         click.echo(f"{e}")
 
