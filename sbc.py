@@ -22,8 +22,10 @@ class SymbolRedefined(SpringboardError):
 class SymbolUndefined(SpringboardError):
     pass
 
+
 class CircularDependency(SpringboardError):
     pass
+
 
 class CircularDefinition(SpringboardError):
     pass

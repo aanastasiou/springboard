@@ -101,22 +101,24 @@ To use `sbc.py`:
 
 You are now ready to compile Springboard programs. Try `./sbc.py --help` for more information.
 
-The compiler is "intelligent enough" to catch cyclic references and symbol redefinitions.
-
+The compiler is "intelligent enough" to catch:
+    - Cyclic imports
+    - Cyclic definitions
+    - Undefined symbols
+    - Symbols being redefined
+    
 ## Improvements (?)
 
-1. Ensure that the symbol under definition is not used in its own definition.
-   - At the moment this leads to infinite recursion
-   
-2. Allow complete/partial redefinition of a symbol:
-   - `:` define symbol (if it already exists, throws error)
-   - `::` re-define symbol (if it already exists, the code it resolves to gets completely replaced, otherwise, throw undefined error)
-   - `:=` extend symbol (if it already exists, the code it resolves to is extended, otherwise, throw undefined error)
+Allow complete/partial redefinition of a symbol:
+
+- `:` define symbol (if it already exists, throws error)
+- `::` re-define symbol (if it already exists, the code it resolves to gets completely replaced, otherwise, throw undefined error)
+- `:=` extend symbol (if it already exists, the code it resolves to is extended, otherwise, throw undefined error)
 
 
 ## Why Springboard?
 
-The first implementation of what later became Springboard was, unsurprisingly in Forth. Forth's 
+The first implementation of what later became Springboard was, unsurprisingly, in Forth. Forth's 
 ability to define a "vocabulary" of "words" that resolve to effects on the stack(s) results in 
 very readable and clear code. Taken to the extreme, the actual Forth code itself, spells out the
 solution to a given problem.
