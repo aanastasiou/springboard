@@ -52,15 +52,18 @@ class SpringboardProgram:
 
     def from_string(self, a_program, previous_imports=[]):
         """
-        Compiles a Springboard program given a string.
+        Initialises a Springboard program given a string.
 
         :param a_program: A string that conforms to Springboard's grammar
         :type a_program: str
         :param previous_imports: A list of all imports in the main namespace to avoid circular references.
         :type previous_imports: list
 
-        :returns: A string that contains purely brainfuck code (i.e. composed entirely of the brainfuck grammar's symbols).
-        :rtype: str
+        :returns: A Springboard program initialised with all its three sections.
+        :rtype: SpringboardProgram
+
+        :raises CircularDependency: If a file being imported imports a file that refers to the file being imported.
+        :raises SymbolRedefined: Self explanatory.
         """
         self._code_info = self._parser.parseString(a_program)
         # If there are imports, prepopulate the symbol definition table
@@ -90,15 +93,15 @@ class SpringboardProgram:
 
     def from_file(self, a_file, previous_imports=[]):
         """
-        Compiles a Springboard program given a file.
+        Initialises a Springboard program given a file name.
 
         :param a_file: The filename of a text file that contains Springboard code.
         :type a_file: str
         :param previous_imports: See `Springboard.from_string`
         :type previous_imports: list
 
-        :returns: A string that contains purely brainfuck code (i.e. composed entirely of the brainfuck grammar's symbols).
-        :rtype: str
+        :returns: A SpringboardProgram object with all its three sections populated.
+        :rtype: SpringboardProgram
         """
         p_imports = previous_imports + []
         with open(a_file, "rt") as fd:
@@ -111,11 +114,15 @@ class SpringboardProgram:
 
         :param a_program: A string containing Springboard code.
         :type a_program: str
+        :param symbols_compiled: The set of symbols whose definition requires compilation of a given symbol.
+        :type symbols_compiled: list[str]
 
-        :returns: A string that contains purely brainfuck code.
+        :returns: A string that contains purely brainfuck code (i.e. composed entirely of the brainfuck grammar's symbols).
         :rtype: str
+
+        :raises CircularDefinition: If a symbol being defined requires the compilation of a symbol being defined.
+        :raises SymbolUndefined: If a symbol being defined refers to a symbol that is not defined anywhere.
         """
-        bf_code = "+-.,<>[]"
         source_code = a_program
         if a_program is None:
             source_code = list(self.code)
