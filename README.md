@@ -106,10 +106,11 @@ To use `sbc.py`:
 You are now ready to compile Springboard programs. Try `./sbc.py --help` for more information.
 
 The compiler is "intelligent enough" to catch:
-    - Cyclic imports
-    - Cyclic definitions
-    - Undefined symbols
-    - Symbols being redefined
+
+- Cyclic imports
+- Cyclic definitions
+- Undefined symbols
+- Symbols being redefined
     
 And optimises brainfuck code by removing redundant `><` and `+-` sequences of operations.
 
