@@ -174,11 +174,33 @@ class SpringboardProgram:
 @click.command()
 @click.argument("input_file", type=click.File(mode="r"))
 @click.argument("output_file", type=click.File(mode="w"))
-@click.option("-b", "--base-url", type=click.STRING, default="https://aanastasiou.github.io/brainfuck-visualizer/?bf=")
-@click.option("--url/--no-url", default=False)
+@click.option("-b", "--base-url", 
+              type=click.STRING, 
+              default="https://aanastasiou.github.io/brainfuck-visualizer/?bf=",
+              help="Sets the base URL towards a try-it-online service.")
+@click.option("--url/--no-url", 
+              default=False,
+              help="If set, returns the program encoded in URL form, ready to "
+                   "be included in a link")
 def sbc(input_file, output_file, base_url, url):
     """
     Springboard compiler.
+
+    The springboard compiler accepts two arguments:\n 
+    - input_file\n
+    - output_file\n
+
+    Both can be stdin/stdout, by using "-".
+
+    Two options are provided to control posting to a try-it-online URL:\n
+    - --base-url\n
+    - --url
+    
+    Examples:\n
+       - echo "+>+[-<+>]"|./sbc.py - -\n
+       - echo "+>+[-<+>]"|./sbc.py - - --url
+
+    The default base URL is: https://aanastasiou.github.io/brainfuck-visualizer/?bf=
     """
     try:
         # Generate unoptimised code (contains successive <> or +-)
