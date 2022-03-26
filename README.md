@@ -60,7 +60,9 @@ A typical Springboard program is divided into three *optional sections*:
    
 2. Symbol definitions
    - A symbol definition starts with `:`, followed by the symbol, the Springboard code 
-     it resolves to and terminates with `;`. 
+     it resolves to and terminates with `;`.
+   - Symbol definitions in a given program can be imported to another program via the 
+     use of `import`. 
 
 3. Code
    - Springboard code appears here as Brainfuck code symbols intermixed with any defined symbols.
@@ -75,13 +77,11 @@ brainfuck much easier than writing plain brainfuck.
 
 These help to define basic functions to:
 
-- Define integers (`std/num_base_N.sb`, where `N` is `2,4,8,..256`)
-- Define and manipulate strings (`std/std.py`) 
-- Apply basic mathematical operations (`std.math.sb`) 
-- Apply basic stack operations (`std/stack.sb`)
-- Apply basic logic operations (`std/logic.sb`)
-
-For more information, see [`std/`](std/).
+- Define integers (`std/num_base_N.sb`, where `N` is `2,4,8,..256`, see for example [`std/num_base_256.sb`](std/num_base_256.sb))
+- Define and manipulate strings ([`std/str.sb`](std/str.sb)) 
+- Apply basic mathematical operations ([`std/math.sb`](std/math.sb)) 
+- Apply basic stack operations ([`std/stack.sb`](std/stack.sb))
+- Apply basic logic operations ([`std/logic.sb`](std/logic.sb))
 
 
 ## The Springboard compiler (`sbc.py`)
@@ -116,11 +116,13 @@ And optimises brainfuck code by removing redundant `><` and `+-` sequences of op
 
 ## Improvements (?)
 
-Allow complete/partial redefinition of a symbol:
+- Allow complete/partial redefinition of a symbol:
+  - `:` define symbol (if it already exists, throws error) 
+  - `::` re-define symbol (if it already exists, the code it resolves to gets completely replaced, otherwise, throw undefined error)
+  - `:=` extend symbol (if it already exists, the code it resolves to is extended, otherwise, throw undefined error)
 
-- `:` define symbol (if it already exists, throws error)
-- `::` re-define symbol (if it already exists, the code it resolves to gets completely replaced, otherwise, throw undefined error)
-- `:=` extend symbol (if it already exists, the code it resolves to is extended, otherwise, throw undefined error)
+- Capture the `main` of each program (that is, the "code section") as a separate symbol with a special name (e.g. `<filename>_main`)
+  and allow it to be re-used. This can be useful if the stack has to be prepared in a specific way prior to executing a given program.
 
 
 ## Why Springboard?
