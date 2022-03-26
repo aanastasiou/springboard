@@ -9,7 +9,7 @@ Springboard compiler
 import os
 import pyparsing
 import click
-
+import urllib
 
 class SpringboardError(Exception):
     pass
@@ -174,7 +174,9 @@ class SpringboardProgram:
 @click.command()
 @click.argument("input_file", type=click.File(mode="r"))
 @click.argument("output_file", type=click.File(mode="w"))
-def sbc(input_file, output_file):
+@click.option("-b", "--base-url", type=click.STRING, default="https://aanastasiou.github.io/brainfuck-visualizer/?bf=")
+@click.option("--url/--no-url", default=False)
+def sbc(input_file, output_file, base_url, url):
     """
     Springboard compiler.
     """
@@ -186,6 +188,8 @@ def sbc(input_file, output_file):
         r2 = pyparsing.Regex("[\+\-][\+\-]+").set_parse_action(lambda s, l, t: ("+" if str(t).count("+") > str(t).count("-") else "-") * abs(str(t).count("+") - str(t).count("-")))
         # Optimise the code by simplifying continuous segments of <> or +- characters
         optimised_code = r2.transform_string(r1.transform_string(code))
+        if url:
+            optimised_code = f"{base_url}{urllib.parse.quote(optimised_code)}"
         output_file.write(f"{optimised_code}\n")
     except SpringboardError as e:
         click.echo(f"{e}")
