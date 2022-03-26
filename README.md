@@ -70,12 +70,16 @@ For more information, see [`examples/`](examples/)
 
 ## "Libraries"
 
-Springboard comes with a set of "libraries", that is, sets of predefined symbols, to:
+Springboard comes with a set of predefined symbols ("libraries") that make writing stack based 
+brainfuck much easier than writing plain brainfuck.
 
-1. Define numeric symbols (0,1,2,...)
-2. Write stack based Brainfuck code
-3. (Very) basic string handling.
-4. Boolean functions
+These help to define basic functions to:
+
+- Define integers (`std/num_base_N.sb`, where `N` is `2,4,8,..256`)
+- Define and manipulate strings (`std/std.py`) 
+- Apply basic mathematical operations (`std.math.sb`) 
+- Apply basic stack operations (`std/stack.sb`)
+- Apply basic logic operations (`std/logic.sb`)
 
 For more information, see [`std/`](std/).
 
@@ -107,6 +111,9 @@ The compiler is "intelligent enough" to catch:
     - Undefined symbols
     - Symbols being redefined
     
+And optimises brainfuck code by removing redundant `><` and `+-` sequences of operations.
+
+
 ## Improvements (?)
 
 Allow complete/partial redefinition of a symbol:

@@ -139,7 +139,6 @@ class SpringboardProgram:
             if type(symbol_code) is not str:
                 self.symbol_defs[a_symbol] = "".join(self.compile(symbol_code, symbols_compiled + [a_symbol]))
             compiled_code = compiled_code + self.symbol_defs[a_symbol]
-
         return compiled_code
 
 
@@ -180,7 +179,14 @@ def sbc(input_file, output_file):
     Springboard compiler.
     """
     try:
-        output_file.write(f"{SpringboardProgram().from_string(input_file.read()).compile()}\n")
+        # Generate unoptimised code (contains successive <> or +-)
+        code = ''.join(SpringboardProgram().from_string(input_file.read()).compile())
+        # TODO: HIGH, Sort the parse actions in the following rules
+        r1 = pyparsing.Regex("[<>][<>]+").set_parse_action(lambda s, l, t: (">" if str(t).count(">") > str(t).count("<") else "<") * abs(str(t).count(">") - str(t).count("<")))
+        r2 = pyparsing.Regex("[\+\-][\+\-]+").set_parse_action(lambda s, l, t: ("+" if str(t).count("+") > str(t).count("-") else "-") * abs(str(t).count("+") - str(t).count("-")))
+        # Optimise the code by simplifying continuous segments of <> or +- characters
+        optimised_code = r2.transform_string(r1.transform_string(code))
+        output_file.write(f"{optimised_code}\n")
     except SpringboardError as e:
         click.echo(f"{e}")
 

@@ -14,4 +14,4 @@ import "../std/num_base_256.sb"
 import "../std/stack.sb"
 import "../std/math.sb"
 
-1 push 1 push 11 push <[[->>>>+<<<<] over over add >>> [-<<<+>>>]<<<-] 
+1 1 11 <[[->>>>+<<<<] over over add >>> [-<<<+>>>]<<<-] 

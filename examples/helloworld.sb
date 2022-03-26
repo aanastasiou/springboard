@@ -13,5 +13,5 @@
 
 import "../std/str.sb"
 
-0>d>l>r>o>w>SP>o>l>l>e>h>upper<[print <]
+ds d l r o w SP o l l e h upper print
 

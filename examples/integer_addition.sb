@@ -10,9 +10,12 @@
 #      To use symbol "2", you first need to define it. 
 #      - All "number symbols" are defined in std/ as num_base_n.sb where n is 2, 
 #        4, 8, 16, 32 all the way to 256 (the maximum meory cell wordlength).
-
+#
+#    - There is an even simpler way to express this by including std/num_base_256.sb, 
+#      std/math.sb which allows you to write the more natural `1 1 add`
+#
 : 0 [-];
 : 1 0+;
 : add [-<+>];
 
-1>1 add;
+1 > 1 add;

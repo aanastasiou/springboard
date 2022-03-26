@@ -1,7 +1,6 @@
 # Basic stack based programming functions
 #
-: pop <[-];
-: push >;
+: drop <[-];
 : swap <[->+>+<<]<[->+<]>>>[-<<<+>>>]<;
 : dup <[->+<]>[-<+>>+<]>[-<+>];
 : over dup dup << [-] > [-] <<<[->>+>+<<<]>>>[-<<<+>>>] ;

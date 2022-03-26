@@ -27,4 +27,4 @@ import "../std/bool.sb"
 
 : xor over not over and rot rot not and or;
 
-1 push 0 push xor
+1 0 xor
