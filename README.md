@@ -81,7 +81,7 @@ These help to define basic functions to:
 - Define and manipulate strings ([`std/str.sb`](std/str.sb)) 
 - Apply basic mathematical operations ([`std/math.sb`](std/math.sb)) 
 - Apply basic stack operations ([`std/stack.sb`](std/stack.sb))
-- Apply basic logic operations ([`std/logic.sb`](std/logic.sb))
+- Apply basic logic operations ([`std/bool.sb`](std/bool.sb))
 
 
 ## The Springboard compiler (`sbc.py`)
