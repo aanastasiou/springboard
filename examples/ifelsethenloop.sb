@@ -1,0 +1,24 @@
+# Demonstrates a loop using the if-else-then construct.
+#
+# Please make sure you first have had a look at the documentation
+# of ifelsethenblocks.sb.
+#
+# Uses the top of the stack as a counter and counts from that value
+# down to 0. This is done by subtracting 1 (by adding -1) as long as 
+# the top value of the stack is not zero.
+#
+# The program alters the top of the stack as in (0 0 10 -- 0 0 0) going
+# through all of the intermediate stack states 
+# (i.e. 0 0 9 -- 0 0 8 -- 0 0 7 -- 0 0 6 ...).
+#
+# Note: Notice here that before and after initiating a plain bf loop
+#       (symbols "[" and "]") there are move commands "<", ">". These 
+#       very important in positioning the read/write head exactly where
+#       it is expected by the stack commands.
+
+import "std/num_base_256.sb"
+import "std/stack.sb"
+import "std/bool.sb"
+import "std/math.sb"
+
+0 0 10 < [ > dup if 1 negate else 0 then add <]

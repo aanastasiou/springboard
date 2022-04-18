@@ -1,0 +1,23 @@
+# Demonstrates more elaborate code blocks within the if-else-then construct
+#
+# Please make sure you first have had a look at the documentation
+# of ifelsethen.sb.
+#
+# The blocks of code (or rather "stack effects") if a given if-else-then
+# can be more elaborate than plain simple substitutions. In fact, they can 
+# modify the stack in any way required.
+#
+# In this example, if the top of the stack is not zero then 1 is subtracted
+# from its value (by adding -1). Otherwise, 0 is added and the program 
+# terminates.
+#
+# The program alters the top of the stack as in (0 0 5 -- 0 0 4).
+
+
+import "std/num_base_256.sb"
+import "std/stack.sb"
+import "std/bool.sb"
+import "std/math.sb"
+
+0 0 5 dup if 1 negate else 0 then add
+

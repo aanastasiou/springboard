@@ -1,0 +1,24 @@
+# Demonstrates a simple if-else-then construct
+#
+# Because of the stack-based model, Springboard's if-else-then works here 
+# more like the ternary if (?:). That is, if-else-then tests for a 
+# condition and if that condition is true it substitutes its "if" block 
+# while if it is false then it substitutes for its "else" block. "Then", 
+# it proceeds to the rest of the code.
+#
+# The following program checks the number at the top of the stack (here 5). 
+# If that number is not zero then it is substituted by the number 3. 
+# Otherwise it is substituted by the number 4. (Remember, both branches 
+# of an if-else-then should always evaluate to a stack effect, even if the 
+# "else" branch seems redundant).
+#
+# The program alters the top of the stack as in (0 0 5 -- 0 0 3). If it 
+# starts with a 0 value, it alters the top of the stack as in (0 0 0 -- 0 0 4).
+
+import "std/num_base_256.sb"
+import "std/stack.sb"
+import "std/bool.sb"
+import "std/math.sb"
+
+0 0 5 if 3 else 4 then
+

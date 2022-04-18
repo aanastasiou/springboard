@@ -158,10 +158,7 @@ class SpringboardProgram:
         loop_code_block := basic_code_block | ("[" (basic_code_block | loop_code_block)* "]")
         """
         symbol_id = pyparsing.Regex("[a-zA-Z0-9_]+")
-        basic_code_block = pyparsing.OneOrMore(pyparsing.Regex("[+\-\.,<>]") ^ symbol_id)
-        loop_code_block = pyparsing.Forward()
-        loop_code_block << (basic_code_block ^ ("[" + pyparsing.ZeroOrMore(basic_code_block ^ loop_code_block) + "]"))
-        code_section = pyparsing.ZeroOrMore(basic_code_block ^ loop_code_block)
+        code_section = pyparsing.ZeroOrMore(pyparsing.Regex("[+\-\.,<>\[\]]") ^ symbol_id)
         def_statement = pyparsing.Group(pyparsing.Suppress(":") + symbol_id("symbol") + code_section("code") + pyparsing.Suppress(";"))
         defs_section = pyparsing.ZeroOrMore(def_statement)
         import_statement = pyparsing.Suppress("import") + pyparsing.QuotedString("\"")
@@ -206,8 +203,8 @@ def sbc(input_file, output_file, base_url, url):
         # Generate unoptimised code (contains successive <> or +-)
         code = ''.join(SpringboardProgram().from_string(input_file.read()).compile())
         # TODO: HIGH, Sort the parse actions in the following rules
-        r1 = pyparsing.Regex("[<>][<>]+").set_parse_action(lambda s, l, t: (">" if str(t).count(">") > str(t).count("<") else "<") * abs(str(t).count(">") - str(t).count("<")))
-        r2 = pyparsing.Regex("[\+\-][\+\-]+").set_parse_action(lambda s, l, t: ("+" if str(t).count("+") > str(t).count("-") else "-") * abs(str(t).count("+") - str(t).count("-")))
+        r1 = pyparsing.Regex("[<>][<>]+").set_parse_action(lambda s, l, t: (">" if str(t).count(">") >= str(t).count("<") else "<") * abs(str(t).count(">") - str(t).count("<")))
+        r2 = pyparsing.Regex("[\+\-][\+\-]+").set_parse_action(lambda s, l, t: ("+" if str(t).count("+") >= str(t).count("-") else "-") * abs(str(t).count("+") - str(t).count("-")))
         # Optimise the code by simplifying continuous segments of <> or +- characters
         optimised_code = r2.transform_string(r1.transform_string(code))
         if url:
