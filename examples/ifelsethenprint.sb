@@ -1,0 +1,14 @@
+# Demonstrates a loop that prints a message (the word Step)
+# N times (here N=10), using the if-else-then construct.
+#
+# Please make sure you first have had a look at the documentation
+# of ifelsethenloop.sb.
+#
+
+import "../std/num_base_256.sb"
+import "../std/stack.sb"
+import "../std/bool.sb"
+import "../std/math.sb"
+import "../std/str.sb"
+
+0 0 10 < [ > dup if 1 negate else 0 then add ds 10 p e t s upper sd print < ]

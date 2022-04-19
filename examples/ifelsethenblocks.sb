@@ -14,10 +14,10 @@
 # The program alters the top of the stack as in (0 0 5 -- 0 0 4).
 
 
-import "std/num_base_256.sb"
-import "std/stack.sb"
-import "std/bool.sb"
-import "std/math.sb"
+import "../std/num_base_256.sb"
+import "../std/stack.sb"
+import "../std/bool.sb"
+import "../std/math.sb"
 
 0 0 5 dup if 1 negate else 0 then add
 

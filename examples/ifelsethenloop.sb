@@ -16,9 +16,9 @@
 #       very important in positioning the read/write head exactly where
 #       it is expected by the stack commands.
 
-import "std/num_base_256.sb"
-import "std/stack.sb"
-import "std/bool.sb"
-import "std/math.sb"
+import "../std/num_base_256.sb"
+import "../std/stack.sb"
+import "../std/bool.sb"
+import "../std/math.sb"
 
 0 0 10 < [ > dup if 1 negate else 0 then add <]
